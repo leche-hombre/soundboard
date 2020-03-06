@@ -7,4 +7,27 @@
         android:layout_height="match_parent"
         tools:context=".SoundBoard">
 
+    <Button
+            android:text="@string/do_the_roar"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:id="@+id/btn_roar" android:background="@drawable/do_the_roar"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="100dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="132dp"/>
+
+    <Button
+            android:text="@string/do_it"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:id="@+id/btn_do_it" android:background="@drawable/do_the_roar"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="250dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="132dp"/>
+
+    <Button
+            android:text="@string/i_love_you_daddy"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:id="@+id/btn_i_love_you_daddy" android:background="@drawable/do_the_roar"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="400dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="132dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

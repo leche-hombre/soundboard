@@ -1,6 +1,7 @@
 package com.example.soundboard
 
 import android.media.MediaPlayer
+import android.media.audiofx.Visualizer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -14,6 +15,15 @@ class SoundBoard : AppCompatActivity() {
         val btnRoar : Button = findViewById(R.id.btn_roar)
         btnRoar.setOnClickListener {
             val mediaPlayer : MediaPlayer = MediaPlayer.create(this, R.raw.do_the_roar)
+
+            val visualiser : Visualizer = Visualizer(mediaPlayer.audioSessionId)
+            visualiser.setCaptureSize(Visualizer.getCaptureSizeRange()[1])
+
+            visualiser.enabled = true
+
+            val waveFormBytes : ByteArray = ByteArray(256)
+            visualiser.getWaveForm(waveFormBytes)
+
             mediaPlayer.start()
         }
 

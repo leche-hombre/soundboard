@@ -5,10 +5,13 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ListView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,11 +23,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        val categories : Array<String> = resources.getStringArray()
+        val categoriesAdapter : ArrayAdapter<String> = ArrayAdapter(this, R.layout.lv_categories, R.id.tv_category)
+        val lvCategories : ListView = findViewById<ListView>(R.id.lv_categories)
+
+
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
             != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), this.recordAudioPermission)
         } else {
-            val btnOpenSoundboard : Button = findViewById(R.id.btn_soundboard)
+            val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
             btnOpenSoundboard.setOnClickListener {
                 val intent = Intent(this, SoundBoard::class.java)
                 startActivity(intent)
@@ -39,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
             this.recordAudioPermission -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    val btnOpenSoundboard : Button = findViewById(R.id.btn_soundboard)
+                    val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
                     btnOpenSoundboard.setOnClickListener {
                         val intent = Intent(this, SoundBoard::class.java)
                         startActivity(intent)

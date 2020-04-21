@@ -23,9 +23,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val categories : Array<String> = resources.getStringArray()
-        val categoriesAdapter : ArrayAdapter<String> = ArrayAdapter(this, R.layout.lv_categories, R.id.tv_category)
+        val categories : Array<String> = resources.getStringArray(R.array.lv_categories)
+        val categoriesAdapter : ArrayAdapter<String> = ArrayAdapter(this, R.layout.lv_categories, R.id.tv_category, categories)
         val lvCategories : ListView = findViewById<ListView>(R.id.lv_categories)
+        lvCategories.adapter = categoriesAdapter
 
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)

@@ -31,9 +31,11 @@ class SoundboardWaveformView : View {
         paint.strokeWidth = 5f
         paint.style = Paint.Style.STROKE
 
+        val startingPosition = this.height / 2
+
         // draw stuff here
         val path = Path()
-        path.moveTo(0f, 0f)
+        path.moveTo(0f, startingPosition.toFloat())
 
         for (i in 1..1000) {
             val y = Random.nextInt(1..100)

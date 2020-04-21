@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private var recordAudioPermission: Int = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
             != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), 1)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), this.recordAudioPermission)
         } else {
             val btnOpenSoundboard : Button = findViewById(R.id.btn_soundboard)
             btnOpenSoundboard.setOnClickListener {
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         when(requestCode) {
 
-            1 -> {
+            this.recordAudioPermission -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     val btnOpenSoundboard : Button = findViewById(R.id.btn_soundboard)
                     btnOpenSoundboard.setOnClickListener {

@@ -5,12 +5,11 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,11 +22,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val categories : Array<String> = resources.getStringArray(R.array.lv_categories)
-        val categoriesAdapter : ArrayAdapter<String> = ArrayAdapter(this, R.layout.lv_categories, R.id.tv_category, categories)
-        val lvCategories : ListView = findViewById<ListView>(R.id.lv_categories)
-        lvCategories.adapter = categoriesAdapter
-
+        val categoriesAdapter = CategoryListAdapter(this)
+        val rvCategories : RecyclerView = findViewById<RecyclerView>(R.id.rv_categories)
+        rvCategories.adapter = categoriesAdapter
+        rvCategories.layoutManager = LinearLayoutManager(this)
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
             != PackageManager.PERMISSION_GRANTED) {

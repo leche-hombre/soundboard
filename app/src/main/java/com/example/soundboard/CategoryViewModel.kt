@@ -13,7 +13,6 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
 
     val allCategories: LiveData<List<Category>>
 
-
     init {
         val categoryDao: CategoryDao = CategoryRoomDatabase.getDatabase(application, viewModelScope).categoryDao()
         repository = CategoryRepository(categoryDao)

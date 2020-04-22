@@ -9,6 +9,8 @@
             android:layout_height="match_parent"
             android:id="@+id/add_category"
             android:hint="@string/add_category"
-            style="@style/AppTheme"/>
+            style="@style/AppTheme"
+            android:maxLines="1"
+            android:inputType="text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

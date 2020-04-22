@@ -52,10 +52,11 @@ class MainActivity : AppCompatActivity() {
             .setView(categoryDialogView)
             .setTitle(R.string.title_add_category)
             .setPositiveButton(R.string.add) { _, _ ->
-                val categoryName = categoryDialogView.findViewById<EditText>(R.id.add_category)
-                    .text.toString()
+                val editTextCategoryName = categoryDialogView.findViewById<EditText>(R.id.add_category)
+                val categoryName = editTextCategoryName.text.toString()
                 val category = Category(0, categoryName)
                 categoryViewModel.insert(category)
+                editTextCategoryName.text.clear()
             }
             .setNegativeButton(R.string.cancel) { _, _ -> }
             .create()

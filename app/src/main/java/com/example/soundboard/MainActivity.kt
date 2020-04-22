@@ -72,23 +72,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        // TODO: insert test categories
-        categoryViewModel.insert(Category(0, "TEST1"))
-        categoryViewModel.insert(Category(1, "TEST2"))
-        categoryViewModel.insert(Category(2, "TEST3"))
-        categoryViewModel.insert(Category(3, "TEST4"))
-        categoryViewModel.insert(Category(4, "TEST5"))
-        categoryViewModel.insert(Category(5, "TEST6"))
-        categoryViewModel.insert(Category(6, "TEST7"))
-        categoryViewModel.insert(Category(7, "TEST8"))
-        categoryViewModel.insert(Category(8, "TEST9"))
-        categoryViewModel.insert(Category(9, "TEST10"))
-        categoryViewModel.insert(Category(10, "TEST11"))
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_add -> {

@@ -13,34 +13,29 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private var recordAudioPermission: Int = 1
-    private var alertDialog: AlertDialog? = null
+    private var alertDialog: MaterialAlertDialogBuilder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        alertDialog = this.let {
-            val builder = AlertDialog.Builder(it)
-            val inflater = this.layoutInflater
+        alertDialog = MaterialAlertDialogBuilder(this)
+            .setView(R.layout.new_category_dialog)
+            .setTitle(R.string.title_add_category)
+            .setPositiveButton(R.string.add) { _, _ ->
 
-            builder.setView(inflater.inflate(R.layout.new_category_dialog, null))
-                .setTitle(R.string.title_add_category)
-                .setPositiveButton(R.string.add) { _, _ ->
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
 
-                }
-                .setNegativeButton(R.string.cancel) { dialog, _ ->
-                    dialog.cancel()
-                }
-
-            builder.create()
-        }
+            }
 
         val categoriesAdapter = CategoryListAdapter(this)
         val rvCategories : RecyclerView = findViewById<RecyclerView>(R.id.rv_categories)

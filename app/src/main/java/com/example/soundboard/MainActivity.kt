@@ -1,11 +1,9 @@
 package com.example.soundboard
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,20 +14,21 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.annotations.NotNull
 
 class MainActivity : AppCompatActivity() {
 
     private var recordAudioPermission: Int = 1
     private var alertDialog: AlertDialog? = null
-
     private lateinit var categoryViewModel: CategoryViewModel
+
+    companion object {
+        private const val CATEGORY_ID: Int = 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(R.string.add) { _, _ ->
                 val editTextCategoryName = categoryDialogView.findViewById<EditText>(R.id.add_category)
                 val categoryName = editTextCategoryName.text.toString()
-                val category = Category(0, categoryName)
+                val category = Category(CATEGORY_ID, categoryName)
                 categoryViewModel.insert(category)
                 editTextCategoryName.text.clear()
             }

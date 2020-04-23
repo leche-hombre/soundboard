@@ -20,7 +20,9 @@
                 android:paddingBottom="16dp"
                 android:text="Example Text"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:ellipsize="end"
+                android:singleLine="true"/>
 
     </androidx.cardview.widget.CardView>
 

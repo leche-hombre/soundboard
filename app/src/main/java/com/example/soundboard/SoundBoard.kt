@@ -11,16 +11,9 @@ import android.widget.Button
 
 class SoundBoard : AppCompatActivity(), Visualizer.OnDataCaptureListener {
 
-    private var waveformView: WaveformView? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sound_board)
-
-        waveformView = findViewById(R.id.waveform_view)
-
-        val rendererFactory : RenderFactory = RenderFactory()
-        waveformView?.setRenderer(rendererFactory.createSimpleWaveformRenderer(Color.GREEN, Color.DKGRAY))
 
         val btnRoar : Button = findViewById(R.id.btn_roar)
         btnRoar.setOnClickListener {
@@ -48,9 +41,7 @@ class SoundBoard : AppCompatActivity(), Visualizer.OnDataCaptureListener {
     }
 
     override fun onWaveFormDataCapture(visualiser: Visualizer?, waveform: ByteArray?, p2: Int) {
-        if (waveformView != null) {
-            waveformView?.setWaveform(waveform)
-        }
+
     }
 
     override fun onFftDataCapture(p0: Visualizer?, p1: ByteArray?, p2: Int) {

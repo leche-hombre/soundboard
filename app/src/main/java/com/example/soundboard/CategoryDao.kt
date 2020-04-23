@@ -1,10 +1,7 @@
 package com.example.soundboard
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CategoryDao {
@@ -17,4 +14,7 @@ interface CategoryDao {
 
     @Query("DELETE FROM category")
     suspend fun deleteAll()
+
+    @Delete
+    suspend fun delete(category: Category)
 }

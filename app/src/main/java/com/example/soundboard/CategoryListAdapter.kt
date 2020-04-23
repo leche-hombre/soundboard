@@ -1,13 +1,14 @@
 package com.example.soundboard
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CategoryListAdapter internal constructor(context: Context) :
+class CategoryListAdapter internal constructor(context: Context, private var categoryViewModel: CategoryViewModel) :
     RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -25,6 +26,19 @@ class CategoryListAdapter internal constructor(context: Context) :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val current = categories[position]
         holder.categoryItemView.text = current.categoryName
+
+        holder.itemView.setOnLongClickListener {
+            removeCategory(position)
+            true
+        }
+    }
+
+    private fun removeCategory(position: Int) {
+        Log.println(Log.DEBUG, "CATEGORY PRESSED:", categories[position].categoryName)
+        this.categoryViewModel.delete(categories[position])
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, categories.size)
+        notifyDataSetChanged()
     }
 
     internal fun setCategories(categories: List<Category>) {

@@ -35,12 +35,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val categoriesAdapter = CategoryListAdapter(this)
+        categoryViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
+
+        val categoriesAdapter = CategoryListAdapter(this, categoryViewModel)
         val rvCategories : RecyclerView = findViewById<RecyclerView>(R.id.rv_categories)
         rvCategories.adapter = categoriesAdapter
         rvCategories.layoutManager = LinearLayoutManager(this)
 
-        categoryViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
         categoryViewModel.allCategories.observe(this, Observer { categories ->
             // Update the cached copy of the words in the adapter
             categories?.let { categoriesAdapter.setCategories(it) }

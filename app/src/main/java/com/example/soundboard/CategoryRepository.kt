@@ -9,4 +9,8 @@ class CategoryRepository(private val categoryDao: CategoryDao) {
     suspend fun insert(category: Category) {
         this.categoryDao.insert(category)
     }
+
+    suspend fun delete(category: Category) {
+        this.categoryDao.delete(category)
+    }
 }

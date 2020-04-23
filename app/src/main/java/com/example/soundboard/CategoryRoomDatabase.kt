@@ -1,6 +1,7 @@
 package com.example.soundboard
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -58,6 +59,9 @@ public abstract class CategoryRoomDatabase : RoomDatabase() {
             categoryDao.insert(category)
             category = Category(0, "Memes")
             categoryDao.insert(category)
+
+            // TODO: This won't work because the id changes at this point
+            categoryDao.delete(category)
         }
     }
 }

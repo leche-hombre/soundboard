@@ -22,4 +22,8 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
     fun insert(category: Category) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(category)
     }
+
+    fun delete(category: Category) = viewModelScope.launch(Dispatchers.IO) {
+        repository.delete(category)
+    }
 }

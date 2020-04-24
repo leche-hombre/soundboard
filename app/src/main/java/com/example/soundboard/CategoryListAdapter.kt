@@ -19,7 +19,6 @@ class CategoryListAdapter internal constructor(context: Context, private var cat
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txCategoryName: TextView = itemView.findViewById(R.id.tv_category)
-        val btnCategoryEdit: ImageButton = itemView.findViewById(R.id.btn_edit)
         val btnCategoryDelete: ImageButton = itemView.findViewById(R.id.btn_delete)
     }
 
@@ -33,7 +32,6 @@ class CategoryListAdapter internal constructor(context: Context, private var cat
         holder.txCategoryName.text = current.categoryName
 
         holder.itemView.setOnLongClickListener {
-            holder.btnCategoryEdit.visibility = View.VISIBLE
             holder.btnCategoryDelete.visibility = View.VISIBLE
             true
         }

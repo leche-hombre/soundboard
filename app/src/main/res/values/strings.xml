@@ -10,6 +10,9 @@
     <string name="cancel">Cancel</string>
     <string name="add_category">Category name</string>
     <string name="title_add_category">New Category</string>
+    <string name="example_text">Example Text</string>
+    <string name="remove_category">Remove cateogry</string>
+    <string name="edit_category">edit_category</string>
     <string-array name="lv_categories">
         <item>Shrek</item>
         <item>Memes</item>

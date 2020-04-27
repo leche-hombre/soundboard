@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.yield
 import org.jetbrains.annotations.NotNull
 
 class MainActivity : AppCompatActivity() {
@@ -95,9 +97,23 @@ class MainActivity : AppCompatActivity() {
             this.recordAudioPermission -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
-                    btnOpenSoundboard.setOnClickListener {
-                        val intent = Intent(this, SoundBoard::class.java)
-                        startActivity(intent)
+                    val soundBiteRecorder = SoundBiteRecorder()
+                    btnOpenSoundboard.setOnLongClickListener {
+//                        val intent = Intent(this, SoundBoard::class.java)
+//                        startActivity(intent)
+                        if (!soundBiteRecorder.isRecording) {
+                            soundBiteRecorder.start("test")
+                        }
+                        true
+                    }
+
+                    btnOpenSoundboard.setOnTouchListener { view, motionEvent ->
+                        if (motionEvent.action == MotionEvent.ACTION_UP) {
+                            if(soundBiteRecorder.isRecording) {
+                                soundBiteRecorder.stop()
+                            }
+                        }
+                        true
                     }
                 } else {
 

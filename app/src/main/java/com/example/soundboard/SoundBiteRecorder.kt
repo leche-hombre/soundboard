@@ -1,10 +1,9 @@
 package com.example.soundboard
 
 import android.media.MediaRecorder
+import android.util.Log
 
-class SoundBiteRecorder internal constructor() {
-
-    private lateinit var mediaRecorder: MediaRecorder
+class SoundBiteRecorder internal constructor(private var mediaRecorder: MediaRecorder) {
 
     var isRecording: Boolean = false
 

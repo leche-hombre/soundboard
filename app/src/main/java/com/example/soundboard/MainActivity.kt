@@ -2,13 +2,16 @@ package com.example.soundboard
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaRecorder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -36,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        Log.println(Log.DEBUG, "TEST LOG", "TEST")
 
         categoryViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
 
@@ -69,9 +74,24 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), this.recordAudioPermission)
         } else {
             val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
-            btnOpenSoundboard.setOnClickListener {
-                val intent = Intent(this, SoundBoard::class.java)
-                startActivity(intent)
+            val mediaRecorder = MediaRecorder()
+            val soundBiteRecorder = SoundBiteRecorder(mediaRecorder)
+            btnOpenSoundboard.setOnLongClickListener {
+//                        val intent = Intent(this, SoundBoard::class.java)
+//                        startActivity(intent)
+                if (!soundBiteRecorder.isRecording) {
+                    soundBiteRecorder.start("/test/")
+                }
+                true
+            }
+
+            btnOpenSoundboard.setOnTouchListener { view, motionEvent ->
+                if (motionEvent.action == MotionEvent.ACTION_UP) {
+                    if(soundBiteRecorder.isRecording) {
+                        soundBiteRecorder.stop()
+                    }
+                }
+                true
             }
         }
     }
@@ -97,17 +117,23 @@ class MainActivity : AppCompatActivity() {
             this.recordAudioPermission -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
-                    val soundBiteRecorder = SoundBiteRecorder()
+                    val mediaRecorder = MediaRecorder()
+                    val soundBiteRecorder = SoundBiteRecorder(mediaRecorder)
+                    btnOpenSoundboard.setOnClickListener {
+                        Log.d("FAB CLICKED", "TRUE")
+                    }
                     btnOpenSoundboard.setOnLongClickListener {
 //                        val intent = Intent(this, SoundBoard::class.java)
 //                        startActivity(intent)
+                        Log.d("ALREADY RECORDING:", soundBiteRecorder.isRecording.toString())
                         if (!soundBiteRecorder.isRecording) {
-                            soundBiteRecorder.start("test")
+                            soundBiteRecorder.start("/test/")
                         }
                         true
                     }
 
                     btnOpenSoundboard.setOnTouchListener { view, motionEvent ->
+                        Log.d("ALREADY RECORDING:", soundBiteRecorder.isRecording.toString())
                         if (motionEvent.action == MotionEvent.ACTION_UP) {
                             if(soundBiteRecorder.isRecording) {
                                 soundBiteRecorder.stop()

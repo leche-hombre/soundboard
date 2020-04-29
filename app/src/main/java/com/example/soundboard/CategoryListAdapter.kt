@@ -42,7 +42,6 @@ class CategoryListAdapter internal constructor(context: Context, private var cat
     }
 
     private fun removeCategory(position: Int) {
-        Log.println(Log.DEBUG, "CATEGORY PRESSED:", categories[position].categoryName)
         this.categoryViewModel.delete(categories[position])
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, categories.size)

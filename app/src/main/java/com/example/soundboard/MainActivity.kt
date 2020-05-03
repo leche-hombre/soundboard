@@ -40,8 +40,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        Log.println(Log.DEBUG, "TEST LOG", "TEST")
-
         categoryViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
 
         val categoriesAdapter = CategoryListAdapter(this, categoryViewModel)
@@ -73,26 +71,9 @@ class MainActivity : AppCompatActivity() {
             != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), this.recordAudioPermission)
         } else {
-            val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
-            val mediaRecorder = MediaRecorder()
-            val soundBiteRecorder = SoundBiteRecorder(mediaRecorder)
-            btnOpenSoundboard.setOnLongClickListener {
-//                        val intent = Intent(this, SoundBoard::class.java)
-//                        startActivity(intent)
-                if (!soundBiteRecorder.isRecording) {
-                    soundBiteRecorder.start("/test/")
-                }
-                true
-            }
 
-            btnOpenSoundboard.setOnTouchListener { view, motionEvent ->
-                if (motionEvent.action == MotionEvent.ACTION_UP) {
-                    if(soundBiteRecorder.isRecording) {
-                        soundBiteRecorder.stop()
-                    }
-                }
-                true
-            }
+            start()
+
         }
     }
 
@@ -116,31 +97,9 @@ class MainActivity : AppCompatActivity() {
 
             this.recordAudioPermission -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
-                    val mediaRecorder = MediaRecorder()
-                    val soundBiteRecorder = SoundBiteRecorder(mediaRecorder)
-                    btnOpenSoundboard.setOnClickListener {
-                        Log.d("FAB CLICKED", "TRUE")
-                    }
-                    btnOpenSoundboard.setOnLongClickListener {
-//                        val intent = Intent(this, SoundBoard::class.java)
-//                        startActivity(intent)
-                        Log.d("ALREADY RECORDING:", soundBiteRecorder.isRecording.toString())
-                        if (!soundBiteRecorder.isRecording) {
-                            soundBiteRecorder.start("/test/")
-                        }
-                        true
-                    }
 
-                    btnOpenSoundboard.setOnTouchListener { view, motionEvent ->
-                        Log.d("ALREADY RECORDING:", soundBiteRecorder.isRecording.toString())
-                        if (motionEvent.action == MotionEvent.ACTION_UP) {
-                            if(soundBiteRecorder.isRecording) {
-                                soundBiteRecorder.stop()
-                            }
-                        }
-                        true
-                    }
+                    start()
+
                 } else {
 
                     Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show()
@@ -157,4 +116,37 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
+
+    private fun start() {
+
+        val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
+        val mediaRecorder = MediaRecorder()
+        val soundBiteRecorder = SoundBiteRecorder(mediaRecorder)
+
+        btnOpenSoundboard.setOnClickListener() {
+
+            if (!soundBiteRecorder.isRecording) {
+
+                soundBiteRecorder.start("/test/")
+                btnOpenSoundboard.setImageResource(R.drawable.ic_mic_24px)
+
+            } else {
+
+                soundBiteRecorder.stop()
+                btnOpenSoundboard.setImageResource(R.drawable.ic_mic_none_24px)
+
+            }
+        }
+    }
+
+//        btnOpenSoundboard.setOnTouchListener { view, motionEvent ->
+//            Log.d("ALREADY RECORDING:", soundBiteRecorder.isRecording.toString())
+//            if (motionEvent.action == MotionEvent.ACTION_UP) {
+//                if(soundBiteRecorder.isRecording) {
+//                    soundBiteRecorder.stop()
+//                }
+//            }
+//            true
+//        }
+//    }
 }

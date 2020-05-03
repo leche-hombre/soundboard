@@ -2,6 +2,7 @@ package com.example.soundboard
 
 import android.media.MediaRecorder
 import android.util.Log
+import java.io.File
 
 class SoundBiteRecorder internal constructor(private var mediaRecorder: MediaRecorder) {
 
@@ -17,7 +18,8 @@ class SoundBiteRecorder internal constructor(private var mediaRecorder: MediaRec
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-        mediaRecorder.setOutputFile(audioPath)
+        val audioFile = File(audioPath + "testfile.mp4")
+        mediaRecorder.setOutputFile(audioFile.absolutePath)
         mediaRecorder.prepare()
         mediaRecorder.start()
         isRecording = true

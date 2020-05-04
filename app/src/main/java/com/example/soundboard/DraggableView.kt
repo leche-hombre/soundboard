@@ -26,12 +26,12 @@ class DraggableView : Activity() {
 
     private fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
 
-        val xPosition: Int = motionEvent.rawX.toInt()
+        val xCurrentPosition: Int = motionEvent.rawX.toInt()
         val layoutParams: ConstraintLayout.LayoutParams = view.layoutParams as ConstraintLayout.LayoutParams
 
         when(motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                xPositionDelta = xPosition - layoutParams.leftMargin
+                xPositionDelta = xCurrentPosition - layoutParams.leftMargin
                 setScaleFactor(view, 1.2f)
             }
             MotionEvent.ACTION_UP -> {
@@ -41,8 +41,8 @@ class DraggableView : Activity() {
                 setScaleFactor(view, 1f)
             }
             MotionEvent.ACTION_MOVE -> {
-                if (xPosition - xPositionDelta < layoutParams.leftMargin) {
-                    layoutParams.leftMargin = xPosition - xPositionDelta
+                if (xCurrentPosition - xPositionDelta < xOriginalPosition) {
+                    layoutParams.leftMargin = xCurrentPosition - xPositionDelta
                     view.layoutParams = layoutParams
                 }
             }

@@ -1,19 +1,18 @@
 package com.example.soundboard
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.EditText
 import android.widget.MediaController
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -24,12 +23,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.yield
 import org.jetbrains.annotations.NotNull
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
     private var recordAudioPermission: Int = 1
     private var alertDialog: AlertDialog? = null
     private lateinit var categoryViewModel: CategoryViewModel
+
+    private var xPositionDelta = 0
+    private var yPositionDelta = 0
+
+    private lateinit var root: ViewGroup
 
     companion object {
         private const val CATEGORY_ID: Int = 0
@@ -39,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        root = findViewById(R.id.main_activity)
 
         categoryViewModel = ViewModelProvider(this).get(CategoryViewModel::class.java)
 
@@ -117,26 +124,88 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun start() {
 
         val btnOpenSoundboard : FloatingActionButton = findViewById(R.id.btn_record)
         val mediaRecorder = MediaRecorder()
         val soundBiteRecorder = SoundBiteRecorder(mediaRecorder)
 
+//        btnOpenSoundboard.setOnTouchListener(object: View.OnTouchListener {
+//            override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+//                val xPosition: Int = motionEvent.rawX.toInt()
+//                val yPosition: Int = motionEvent.rawY.toInt()
+//
+//                when(motionEvent.action + MotionEvent.ACTION_MASK) {
+//                    MotionEvent.ACTION_DOWN -> {
+//                        val layoutParams: ConstraintLayout.LayoutParams = view.layoutParams as ConstraintLayout.LayoutParams
+//                        xPositionDelta = xPosition - layoutParams.leftMargin
+//                        yPositionDelta = yPosition - layoutParams.topMargin
+//                    }
+//                    MotionEvent.ACTION_MOVE -> {
+//                        val layoutParams: ConstraintLayout.LayoutParams = view.layoutParams as ConstraintLayout.LayoutParams
+//                        layoutParams.leftMargin = xPosition - xPositionDelta
+//                        layoutParams.topMargin = yPosition - yPositionDelta
+//                        layoutParams.rightMargin = -250
+//                        layoutParams.bottomMargin = -250
+//                        view.layoutParams = layoutParams
+//                    }
+//                }
+//
+//                root.invalidate()
+//                return true
+//            }
+//        })
+
+//        btnOpenSoundboard.setOnTouchListener { view, motionEvent ->
+//
+//            val xPosition: Int = motionEvent.rawX.toInt()
+//            val yPosition: Int = motionEvent.rawY.toInt()
+//
+//            when(motionEvent.action + MotionEvent.ACTION_MASK) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    val layoutParams: ConstraintLayout.LayoutParams = view.layoutParams as ConstraintLayout.LayoutParams
+//                    xPositionDelta = xPosition - layoutParams.leftMargin
+//                    yPositionDelta = yPosition - layoutParams.topMargin
+//                }
+//                MotionEvent.ACTION_MOVE -> {
+//                    val layoutParams: ConstraintLayout.LayoutParams = view.layoutParams as ConstraintLayout.LayoutParams
+//                    layoutParams.leftMargin = xPosition - xPositionDelta
+//                    layoutParams.topMargin = yPosition - yPositionDelta
+//                    layoutParams.rightMargin = -250
+//                    layoutParams.bottomMargin = -250
+//                    view.layoutParams = layoutParams
+//                }
+//            }
+//
+//            this.findViewById<ConstraintLayout>(R.id.main_activity).invalidate()
+//
+//            true
+//        }
+
         btnOpenSoundboard.setOnClickListener() {
 
-            if (!soundBiteRecorder.isRecording) {
 
-                soundBiteRecorder.start("/test/")
-                btnOpenSoundboard.setImageResource(R.drawable.ic_mic_24px)
+            val draggableView = Intent(this, DraggableView::class.java)
+            startActivity(draggableView)
 
-            } else {
-
-                soundBiteRecorder.stop()
-                btnOpenSoundboard.setImageResource(R.drawable.ic_mic_none_24px)
-
-            }
+//            if (!soundBiteRecorder.isRecording) {
+//
+//                val audioPath = this.getExternalFilesDir(null)?.absolutePath
+//                soundBiteRecorder.start(audioPath + "test.mp4")
+//                btnOpenSoundboard.setImageResource(R.drawable.ic_mic_24px)
+//
+//            } else {
+//
+//                soundBiteRecorder.stop()
+//                btnOpenSoundboard.setImageResource(R.drawable.ic_mic_none_24px)
+//
+//            }
         }
+    }
+
+    fun slideView(view: View, motionEvent: MotionEvent) {
+
     }
 
 //        btnOpenSoundboard.setOnTouchListener { view, motionEvent ->

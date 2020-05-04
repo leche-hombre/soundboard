@@ -1,8 +1,14 @@
 package com.example.soundboard
 
 import android.media.MediaRecorder
+import android.nfc.Tag
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import java.io.File
+import java.lang.Exception
 
 class SoundBiteRecorder internal constructor(private var mediaRecorder: MediaRecorder) {
 
@@ -18,8 +24,7 @@ class SoundBiteRecorder internal constructor(private var mediaRecorder: MediaRec
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-        val audioFile = File(audioPath + "testfile.mp4")
-        mediaRecorder.setOutputFile(audioFile.absolutePath)
+        mediaRecorder.setOutputFile(audioPath)
         mediaRecorder.prepare()
         mediaRecorder.start()
         isRecording = true
@@ -29,8 +34,13 @@ class SoundBiteRecorder internal constructor(private var mediaRecorder: MediaRec
         if (!isRecording) {
             return
         }
-        mediaRecorder.stop()
-        mediaRecorder.release()
+        try {
+            mediaRecorder.stop()
+            mediaRecorder.release()
+        } catch (e: Exception) {
+            Log.d("Media recorder stop", e.message)
+        }
+
         isRecording = false
     }
 

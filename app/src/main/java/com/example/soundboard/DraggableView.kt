@@ -41,9 +41,10 @@ class DraggableView : Activity() {
                 setScaleFactor(view, 1f)
             }
             MotionEvent.ACTION_MOVE -> {
-                // TODO: Limit to only sliding left
-                layoutParams.leftMargin = xPosition - xPositionDelta
-                view.layoutParams = layoutParams
+                if (xPosition - xPositionDelta < layoutParams.leftMargin) {
+                    layoutParams.leftMargin = xPosition - xPositionDelta
+                    view.layoutParams = layoutParams
+                }
             }
         }
         return true
